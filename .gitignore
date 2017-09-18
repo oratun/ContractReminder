@@ -1,0 +1,22 @@
+# Windows:
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Python:
+*.py[cod]
+*.so
+*.egg
+*.egg-info
+dist
+build
+
+# My configurations:
+web.config
+mail_sync.py
+data-dev1.sqlite
+deploy_key_rsa
+/env
+/migrations
+testmssql.py
+mssql_url.txt

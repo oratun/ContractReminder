@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}合同提醒系统{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>新增合同</h1>
+</div>
+<div>
+    {% if current_user.can(Permission.WRITE) %}
+    {{ wtf.quick_form(form) }}
+    {% endif %}
+</div>
+<br>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript">
+$('#start_date').datepicker({
+    weekStart: 1,
+    autoclose: true,
+    daysOfWeekHighlighted: "0,6",
+    format: "yyyy/mm/dd",
+    language: "zh-CN"
+});
+$('#end_date').datepicker({
+    weekStart: 1,
+    autoclose: true,
+    daysOfWeekHighlighted: "0,6",
+    format: "yyyy/mm/dd",
+    language: "zh-CN"
+});
+$('#remind_date').datepicker({
+    weekStart: 1,
+    autoclose: true,
+    daysOfWeekHighlighted: "0,6",
+    format: "yyyy/mm/dd",
+    language: "zh-CN"
+});
+</script>
+
+{% endblock %}

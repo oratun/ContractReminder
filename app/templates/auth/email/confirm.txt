@@ -1,0 +1,13 @@
+尊敬的 {{ user.username }},
+
+欢迎注册合同提醒系统
+
+请点击以下链接确认你的账号：
+
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+来自，
+
+合同提醒系统
+
+友情提示：请勿直接回复本邮件。

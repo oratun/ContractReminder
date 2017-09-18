@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}合同提醒系统{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+<!--     <h1>欢迎回来, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h1> -->
+    <h1>输入条件进行查询：</h1>
+</div>
+<div>{{ wtf.quick_form(form) }}</div>
+
+<div class="post-tabs">
+    <ul class="nav nav-tabs">
+        <li class="active"><h3>我的合同：</h3></a></li>
+    </ul>
+    {% include '_posts.html' %}
+</div>
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.index') }}
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript">
+$('#start_date').datepicker({
+    weekStart: 1,
+    autoclose: true,
+    daysOfWeekHighlighted: "1",
+    format: "yyyy/mm/dd",
+    language: "zh-CN"
+});
+$('#end_date').datepicker({
+    weekStart: 1,
+    autoclose: true,
+    daysOfWeekHighlighted: "1",
+    format: "yyyy/mm/dd",
+    language: "zh-CN"
+});
+$('#remind_date').datepicker({
+    format: "yyyy/mm/dd",
+    weekStart: 1,
+    autoclose: true,
+
+    daysOfWeekHighlighted: "1",
+    language: "zh-CN"
+});
+</script>
+
+{% endblock %}
