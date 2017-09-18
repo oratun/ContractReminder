@@ -13,6 +13,7 @@ from ..decorators import admin_required, permission_required
 def index():
     form = SearchForm()
     user_id = current_user.get_id()
+    form.depart_id.choices = [(0,'')] + [(d.id, d.depart_name) for d in Depart.query.all()]
     if form.validate_on_submit():
         title = form.title.data
         summary = form.summary.data
@@ -20,6 +21,7 @@ def index():
         start_date = form.start_date.data
         end_date = form.end_date.data
         remind_date = form.remind_date.data
+        depart_id = form.depart_id.data
         query = Post.query.filter(Post.author_id==user_id)
         if title:
             query = query.filter(Post.title.like('%'+title+'%'))
@@ -33,6 +35,8 @@ def index():
             query = query.filter(Post.end_date==end_date)
         if remind_date:
             query = query.filter(Post.remind_date==remind_date)
+        if depart_id != 0:
+            query = query.filter(Post.depart_id==depart_id)
 
         query = query.order_by(Post.end_date.desc())
 
@@ -66,20 +70,6 @@ def all():
     return render_template('all.html', posts=posts, pagination=pagination)
 
 
-# @main.route('/search_title', methods=['GET', 'POST'])
-# @login_required
-# def search_title():
-#     form = SearchForm()
-#     page = request.args.get('page', 1, type=int)
-#     user_id = current_user.get_id()
-#     pagination = Post.query.filter(Post.author_id=user_id).order_by(Post.timestamp.desc()).paginate(
-#         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
-#         error_out=False)
-#     posts = pagination.items
-#     return render_template('index.html', posts=posts, 
-#                            show_followed=show_followed, pagination=pagination)
-
-
 @main.route('/new_post', methods=['GET', 'POST'])
 @login_required
 def new_post():
@@ -101,6 +91,44 @@ def new_post():
 @login_required
 def about():
     return render_template('about.html')
+
+
+@main.route('/post/<int:id>', methods=['GET', 'POST'])
+def post(id):
+    post = Post.query.get_or_404(id)
+    return render_template('post.html', posts=[post])#, form=form)
+
+
+@main.route('/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit(id):
+    post = Post.query.get_or_404(id)
+    if current_user != post.author and \
+            not current_user.can(Permission.ADMINISTER):
+        abort(403)
+    form = PostForm()
+    if form.validate_on_submit():
+        post.title=form.title.data
+        post.summary=form.summary.data
+        post.note=form.note.data
+        post.start_date=form.start_date.data
+        post.end_date=form.end_date.data
+        post.remind_date=form.remind_date.data
+        post.author_id=session['user_id']
+        post.depart_id=form.depart_id.data
+        db.session.add(post)
+        flash('合同信息更新成功')
+        return redirect(url_for('.post', id=post.id))
+    form.title.data = post.title
+    form.summary.data = post.summary
+    form.note.data = post.note
+    form.start_date.data = post.start_date
+    form.end_date.data = post.end_date
+    form.remind_date.data = post.remind_date
+    form.depart_id.choices = [(d.id, d.depart_name) for d in Depart.query.all()]
+    return render_template('edit_post.html', form=form)
+
+
 # @main.route('/user/<username>')
 # @login_required
 # def user(username):
@@ -156,43 +184,6 @@ def about():
 #     form.location.data = user.location
 #     form.about_me.data = user.about_me
 #     return render_template('edit_profile.html', form=form, user=user)
-
-
-@main.route('/post/<int:id>', methods=['GET', 'POST'])
-def post(id):
-    post = Post.query.get_or_404(id)
-    return render_template('post.html', posts=[post])#, form=form)
-
-
-@main.route('/edit/<int:id>', methods=['GET', 'POST'])
-@login_required
-def edit(id):
-    post = Post.query.get_or_404(id)
-    if current_user != post.author and \
-            not current_user.can(Permission.ADMINISTER):
-        abort(403)
-    form = PostForm()
-    if form.validate_on_submit():
-        post.title=form.title.data 
-        post.summary=form.summary.data
-        post.note=form.note.data
-        post.start_date=form.start_date.data
-        post.end_date=form.end_date.data
-        post.remind_date=form.remind_date.data
-        post.author_id=session['user_id']
-        post.depart_id=form.depart_id.data
-        db.session.add(post)
-        flash('合同信息更新成功')
-        return redirect(url_for('.post', id=post.id))
-    form.title.data = post.title
-    form.summary.data = post.summary
-    form.note.data = post.note
-    form.start_date.data = post.start_date
-    form.end_date.data = post.end_date
-    form.remind_date.data = post.remind_date
-    form.depart_id.choices = [(d.id, d.depart_name) for d in Depart.query.all()]
-    return render_template('edit_post.html', form=form)
-
 
 # @main.route('/follow/<username>')
 # @login_required
