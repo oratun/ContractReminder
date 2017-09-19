@@ -6,15 +6,12 @@
             <div class="post-date">添加于{{ moment(post.timestamp).fromNow() }}</div>
 
             <div class="post-body">
-
                 标题：{{ post.title }} |
                 开始日期：{{ post.start_date }} |
                 结束日期：{{ post.end_date.strftime('%Y-%m-%d') }} |
                 提醒日期：{{ post.remind_date.strftime('%Y-%m-%d') }} |
                 摘要：{{ post.summary }} |
-                备注：{{ post.note }} |
-
-              
+                备注：{{ post.note }}
             </div>
             <div class="post-footer">
                 {% if current_user == post.author %}

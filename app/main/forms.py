@@ -10,11 +10,10 @@ from datetime import datetime
 
 
 class PostForm(FlaskForm):
-    '''提醒日期不能晚于终止日期'''
     title = StringField("标题：", validators=[Required()])
     summary = TextAreaField("内容摘要：", validators=[Required()])
     note = TextAreaField("备注：")
-    depart_id = SelectField("所属部门：", coerce=int, default=2,
+    depart_id = SelectField("所属部门：", coerce=int, default=0,
         # default=User.query.filter_by(username=current_user._get_current_object()).first().get(depart_id),
         validators=[Required()])
     start_date = DateField("合同开始日期：", default='', format='%Y/%m/%d',
@@ -31,6 +30,8 @@ class SearchForm(FlaskForm):
     title = StringField("标题：", default=None)
     summary = TextAreaField("内容摘要：", default=None)
     note = TextAreaField("备注：", default=None)
+    depart_id = SelectField("所属部门：", coerce=int, default=0,
+        validators=[Optional()])
     start_date = DateField("合同开始日期：", default=None, format='%Y/%m/%d',
         validators=[Optional()], widget=DatePickerWidget())
     # body = PageDownField("快速添加合同信息：", validators=[Required()])
@@ -39,8 +40,6 @@ class SearchForm(FlaskForm):
 
     remind_date = DateField('提醒日期：', default=None, format='%Y/%m/%d',
         validators=[Optional()], widget=DatePickerWidget())
-    depart_id = SelectField("所属部门：", coerce=int, default=0,
-        validators=[Optional()])
     submit = SubmitField('查询')
 # class CommentForm(FlaskForm):
 #     body = StringField('Enter your comment', validators=[Required()])

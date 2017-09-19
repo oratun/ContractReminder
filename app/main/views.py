@@ -23,6 +23,8 @@ def index():
         remind_date = form.remind_date.data
         depart_id = form.depart_id.data
         query = Post.query.filter(Post.author_id==user_id)
+        if current_user.can(Permission.SEE_ALL):
+            query = Post.query
         if title:
             query = query.filter(Post.title.like('%'+title+'%'))
         if summary:
@@ -37,13 +39,10 @@ def index():
             query = query.filter(Post.remind_date==remind_date)
         if depart_id != 0:
             query = query.filter(Post.depart_id==depart_id)
-
         query = query.order_by(Post.end_date.desc())
-
         page = request.args.get('page', 1, type=int)
     # show_followed = False
     # query = Post.query.filter_by(author_id=user_id).order_by(Post.timestamp.desc())
-
         pagination = query.paginate(
             page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
             error_out=False)
@@ -62,7 +61,8 @@ def all():
     # show_followed = False
     user_id = current_user.get_id()
     query = Post.query.filter_by(author_id=user_id).order_by(Post.timestamp.desc())
-
+    if current_user.can(Permission.SEE_ALL):
+        query = Post.query()
     pagination = query.paginate(
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
         error_out=False)
@@ -74,7 +74,8 @@ def all():
 @login_required
 def new_post():
     form = PostForm()
-    form.depart_id.choices = [(d.id, d.depart_name) for d in Depart.query.all()]
+    form.depart_id.choices = [(0,'')] + [(d.id, d.depart_name)
+        for d in Depart.query.all()]
     # form.depart_id.default = User.query.filter_by(id=session['user_id']).first().depart_id
     if current_user.can(Permission.WRITE) and form.validate_on_submit():
         post = Post(title=form.title.data, summary=form.summary.data,
