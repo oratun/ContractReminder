@@ -14,9 +14,10 @@ build
 # My configurations:
 web.config
 mail_sync.py
-data-dev1.sqlite
+data-dev.sqlite
+data-product.sqlite
 deploy_key_rsa
 /env
 /migrations
 testmssql.py
-mssql_url.txt
+params.txt
