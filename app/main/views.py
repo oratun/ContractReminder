@@ -62,7 +62,7 @@ def all():
     user_id = current_user.get_id()
     query = Post.query.filter_by(author_id=user_id).order_by(Post.timestamp.desc())
     if current_user.can(Permission.SEE_ALL):
-        query = Post.query()
+        query = Post.query
     pagination = query.paginate(
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
         error_out=False)

@@ -1,6 +1,6 @@
 <p>用户 {{ user.username }},</p>
 <p>欢迎注册 <b>合同提醒系统</b>!</p>
-<p>请点击链接验证你的帐号 <a href="{{ url_for('auth.confirm', token=token, _external=True) }}">点击此处</a>.</p>
+<p>请点击链接验证你的帐号 <a href="{{ url_for('auth.confirm', token=token, _external=True) }}" target="_blank">点击此处</a>.</p>
 <p>A你也可以复制以下链接到浏览器中来访问：</p>
 <p>{{ url_for('auth.confirm', token=token, _external=True) }}</p>
 <p>来自</p>
