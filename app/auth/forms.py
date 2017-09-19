@@ -20,11 +20,11 @@ class RegistrationForm(FlaskForm):
                                            Email()])
     username = StringField('用户名', validators=[
         Required(), Length(1, 64), Regexp('[A-Za-z0-9\u4e00-\u9fa5_@.]+', 0,
-                                          '用户名只能包含汉字 大小写字母 _ @ .')])            
+                                          '用户名只能包含汉字 大小写字母 _ @ .')])
     password = PasswordField('输入密码', validators=[
         Required(), EqualTo('password2', message='Passwords must match.')])
     password2 = PasswordField('重复密码', validators=[Required()])
-    depart_id = SelectField('所在部门', coerce=int, default=2, 
+    depart_id = SelectField('所在部门', coerce=int, default=1, 
                             validators=[Required()])
     submit = SubmitField('注册')
 
@@ -65,7 +65,7 @@ class PasswordResetForm(FlaskForm):
 
 
 class ChangeEmailForm(FlaskForm):
-    email = StringField('新邮箱', validators=[Required(message='邮箱地址不能为空'), 
+    email = StringField('新邮箱', validators=[Required(message='邮箱地址不能为空'),
         Length(1, 64), Email()])
     password = PasswordField('密码', validators=[Required(message='密码不能为空')])
     submit = SubmitField('更新邮箱')

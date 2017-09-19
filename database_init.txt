@@ -1,0 +1,16 @@
+INSERT INTO "main"."departs" ("id", "depart_name", "ROWID") VALUES (1, '未定义', 1);
+INSERT INTO "main"."departs" ("id", "depart_name", "ROWID") VALUES (2, '公司领导', 2);
+INSERT INTO "main"."departs" ("id", "depart_name", "ROWID") VALUES (3, '市场营销部', 3);
+INSERT INTO "main"."departs" ("id", "depart_name", "ROWID") VALUES (4, '互联网营销事业部', 4);
+INSERT INTO "main"."departs" ("id", "depart_name", "ROWID") VALUES (5, '宽固融合部', 5);
+INSERT INTO "main"."departs" ("id", "depart_name", "ROWID") VALUES (6, '校园客户部', 6);
+INSERT INTO "main"."departs" ("id", "depart_name", "ROWID") VALUES (7, '政企客户事业部', 7);
+INSERT INTO "main"."departs" ("id", "depart_name", "ROWID") VALUES (8, '客户服务部', 8);
+INSERT INTO "main"."departs" ("id", "depart_name", "ROWID") VALUES (9, '网络建设部', 9);
+INSERT INTO "main"."departs" ("id", "depart_name", "ROWID") VALUES (10, '综合维护部', 10);
+INSERT INTO "main"."departs" ("id", "depart_name", "ROWID") VALUES (11, '客户响应部', 11);
+INSERT INTO "main"."departs" ("id", "depart_name", "ROWID") VALUES (12, '财务部', 12);
+INSERT INTO "main"."departs" ("id", "depart_name", "ROWID") VALUES (13, '人力资源部', 13);
+INSERT INTO "main"."departs" ("id", "depart_name", "ROWID") VALUES (14, '综合部', 14);
+INSERT INTO "main"."departs" ("id", "depart_name", "ROWID") VALUES (15, '计划与物资管理部', 15);
+INSERT INTO "main"."departs" ("id", "depart_name", "ROWID") VALUES (16, '综合服务支撑中心', 16);
