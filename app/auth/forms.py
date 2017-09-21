@@ -26,11 +26,17 @@ class RegistrationForm(FlaskForm):
     password2 = PasswordField('重复密码', validators=[Required()])
     depart_id = SelectField('所在部门', coerce=int, default=1, 
                             validators=[Required()])
+    email2 = StringField('抄送邮箱', validators=[Required(), Length(1, 64),
+        Email()])
     submit = SubmitField('注册')
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('邮箱已被注册')
+
+    def validate_email2(self, field):
+        if field.data == self.email:
+            raise ValidationError('抄送邮箱不能填自己')
 
     def validate_username(self, field):
         if User.query.filter_by(username=field.data).first():

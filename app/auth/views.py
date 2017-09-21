@@ -55,7 +55,8 @@ def register():
         user = User(email=form.email.data, 
                     username=form.username.data,
                     password=form.password.data, 
-                    depart_id=form.depart_id.data)
+                    depart_id=form.depart_id.data,
+                    email2=form.email2.data)
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
@@ -70,7 +71,7 @@ def register():
 @login_required
 def confirm(token):
     if current_user.confirmed:
-        return redirect(url_for('main.index'))
+        return redirect(url_for('auth.login'))
     if current_user.confirm(token):
         flash('邮箱验证成功，谢谢！')
     else:

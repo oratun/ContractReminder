@@ -32,7 +32,7 @@ def index():
         if note:
             query = query.filter(Post.note.like('%'+note+'%'))
         if start_date:
-            query = query.filter(Post.title.start_date==start_date)
+            query = query.filter(Post.start_date==start_date)
         if end_date:
             query = query.filter(Post.end_date==end_date)
         if remind_date:
