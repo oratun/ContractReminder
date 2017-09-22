@@ -139,6 +139,7 @@ def upload():
         filename = secure_filename(form.attach.data.filename)
         form.attach.data.save('uploads/'+filename)
         flash('上传成功')
+        return redirect(url_for('.upload'))
     return render_template('upload.html', form=form)
 
 
