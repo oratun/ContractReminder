@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 from flask_login import current_user
 from wtforms import StringField, TextAreaField, BooleanField,\
      SelectField, SelectMultipleField, SubmitField, DateField, RadioField
@@ -41,6 +42,9 @@ class SearchForm(FlaskForm):
     remind_date = DateField('提醒日期：', default=None, format='%Y/%m/%d',
         validators=[Optional()], widget=DatePickerWidget())
     submit = SubmitField('查询')
-# class CommentForm(FlaskForm):
-#     body = StringField('Enter your comment', validators=[Required()])
-#     submit = SubmitField('提交')
+
+
+class AttachForm(FlaskForm):
+    attach = FileField('导入数据：', validators=[FileRequired(),
+        FileAllowed(['xlsx'], '仅支持.xlsx格式(Excel 2007以上)')])
+    submit = SubmitField('提交')

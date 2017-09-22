@@ -2,10 +2,11 @@ from flask import render_template, redirect, url_for, abort, flash, request,\
     current_app, make_response, session
 from flask_login import login_required, current_user
 from . import main
-from .forms import PostForm, SearchForm
+from .forms import PostForm, SearchForm, AttachForm
 from .. import db
 from ..models import Permission, Role, User, Post, Depart
 from ..decorators import admin_required, permission_required
+from werkzeug import secure_filename
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -128,6 +129,18 @@ def edit(id):
     form.remind_date.data = post.remind_date
     form.depart_id.choices = [(d.id, d.depart_name) for d in Depart.query.all()]
     return render_template('edit_post.html', form=form)
+
+
+@main.route('/upload', methods=['GET', 'POSt'])
+@login_required
+def upload():
+    form = AttachForm()
+    if form.validate_on_submit():
+        filename = secure_filename(form.attach.data.filename)
+        form.attach.data.save('uploads/'+filename)
+        flash('上传成功')
+    return render_template('upload.html', form=form)
+
 
 
 # @main.route('/user/<username>')

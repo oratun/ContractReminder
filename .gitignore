@@ -19,5 +19,7 @@ data-product.sqlite
 deploy_key_rsa
 /env
 /migrations
+/uploads
 testmssql.py
 params.txt
+合同信息导入模板.xlsx
