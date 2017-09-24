@@ -7,7 +7,7 @@ from .. import db
 from ..models import Permission, Role, User, Post, Depart
 from ..decorators import admin_required, permission_required
 from werkzeug import secure_filename
-
+import xlrd
 
 @main.route('/', methods=['GET', 'POST'])
 @login_required
@@ -136,8 +136,16 @@ def edit(id):
 def upload():
     form = AttachForm()
     if form.validate_on_submit():
-        filename = secure_filename(form.attach.data.filename)
-        form.attach.data.save('uploads/'+filename)
+        book = xlrd.open_workbook(form.attach.data)
+        sh = book.sheet_by_index(0)
+        total = []
+        for row in range(1, sh.nrows):
+            values = []
+            for col in range(sh.ncols):
+                values.append(sh.cell(row, col).value)
+            totals.append(values)
+        # filename = secure_filename(form.attach.data.filename)
+        # form.attach.data.save('uploads/'+filename)
         flash('上传成功')
         return redirect(url_for('.upload'))
     return render_template('upload.html', form=form)

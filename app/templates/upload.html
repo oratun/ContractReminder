@@ -8,10 +8,10 @@
   <h1>批量导入</h1>
 </div>
 <div>
-  <form method="POST" action="{{ url_for('main.upload') }}" enctype="multipart/form-data">
+  <form class_="form form-horizontal" method="POST" action="{{ url_for('main.upload') }}" enctype="multipart/form-data">
       {{ form.hidden_tag() }}
       {{ form.attach.label }} {{ form.attach }}
-      <input type="submit" value="Submit">
+      <input type="submit" value="上传">
   </form>
 </div>
 <br>
