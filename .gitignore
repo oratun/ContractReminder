@@ -22,4 +22,7 @@ deploy_key_rsa
 /uploads
 testmssql.py
 params.txt
-合同信息导入模板.xlsx
+
+
+#MacOS
+.Ds_Store
