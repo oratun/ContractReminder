@@ -46,5 +46,5 @@ class SearchForm(FlaskForm):
 
 class AttachForm(FlaskForm):
     attach = FileField('导入数据：', validators=[FileRequired(),
-        FileAllowed(['xls'], u'仅支持.xls格式(Excel 97-03格式)')])
+        FileAllowed(['xls'], message=u'仅支持.xls格式(Excel 97-03格式)')])
     # submit = SubmitField('上传')

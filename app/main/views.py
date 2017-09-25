@@ -153,7 +153,6 @@ def upload():
             for col in range(sh.ncols):
                 values.append(sh.cell(row, col).value)
             totals.append(values)
-
         for t in totals:
             post = Post(title = t[0], summary = t[1], note = t[2],
                 start_date = xlrd.xldate_as_datetime(t[3], 0),
