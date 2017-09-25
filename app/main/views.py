@@ -109,11 +109,17 @@ def edit(id):
             not current_user.can(Permission.ADMINISTER):
         abort(403)
     form = PostForm()
+    #此处给出choices,否则会报NoneType is not iterable错误：
+    form.depart_id.choices = [(d.id, d.depart_name) for d in Depart.query.all()]
     if form.validate_on_submit():
-        post = Post(title=form.title.data, summary=form.summary.data,
-            note=form.note.data, start_date=form.start_date.data,
-            end_date=form.end_date.data, remind_date=form.remind_date.data,
-            author_id=session['user_id'], depart_id=form.depart_id.data)
+        post.title=form.title.data
+        post.summary=form.summary.data
+        post.note=form.note.data
+        post.start_date=form.start_date.data
+        post.end_date=form.end_date.data
+        post.remind_date=form.remind_date.data
+        # post.author_id=session['user_id']
+        post.depart_id=form.depart_id.data
         db.session.add(post)
         flash('合同信息更新成功')
         return redirect(url_for('.post', id=post.id))
@@ -123,7 +129,6 @@ def edit(id):
     form.start_date.data = post.start_date
     form.end_date.data = post.end_date
     form.remind_date.data = post.remind_date
-    form.depart_id.choices = [(d.id, d.depart_name) for d in Depart.query.all()]
     return render_template('edit_post.html', form=form)
 
 
