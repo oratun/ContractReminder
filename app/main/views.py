@@ -65,7 +65,7 @@ def all():
     user_id = current_user.get_id()
     query = Post.query.filter_by(author_id=user_id).order_by(Post.timestamp.desc())
     if current_user.can(Permission.SEE_ALL):
-        query = Post.query
+        query = Post.query.order_by(Post.timestamp.desc())
     pagination = query.paginate(
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
         error_out=False)
@@ -162,18 +162,14 @@ def upload():
                 author_id = author_id, depart_id = depart_id)
             db.session.add(post)
         flash('导入成功')
-        return redirect(url_for('.upload'))
+        return redirect(url_for('.all'))
     return render_template('upload.html', form=form)
 
 
 @main.route("/download", methods=['GET'])
 @login_required
 def download():
-    # dirpath = os.path.join(app.root_path, 'upload')
-    # directory = os.getcwd()  # 假设在当前目录
-    # response = make_response(send_from_directory(directory, filename, as_attachment=True))
-    # response.headers["Content-Disposition"] = "attachment; filename={}".format(file_name.encode().decode('latin-1'))
-    # return response
+    '''cr/app/合同入模板.xls'''
     response = make_response(send_file("合同信息导入模板.xls"))
     response.headers["Content-Disposition"] = "attachment; filename=template.xls;"
     return response
