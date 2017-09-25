@@ -110,14 +110,10 @@ def edit(id):
         abort(403)
     form = PostForm()
     if form.validate_on_submit():
-        post.title=form.title.data
-        post.summary=form.summary.data
-        post.note=form.note.data
-        post.start_date=form.start_date.data
-        post.end_date=form.end_date.data
-        post.remind_date=form.remind_date.data
-        post.author_id=session['user_id']
-        post.depart_id=form.depart_id.data
+        post = Post(title=form.title.data, summary=form.summary.data,
+            note=form.note.data, start_date=form.start_date.data,
+            end_date=form.end_date.data, remind_date=form.remind_date.data,
+            author_id=session['user_id'], depart_id=form.depart_id.data)
         db.session.add(post)
         flash('合同信息更新成功')
         return redirect(url_for('.post', id=post.id))
@@ -136,6 +132,8 @@ def edit(id):
 def upload():
     form = AttachForm()
     if form.validate_on_submit():
+        author_id = session['user_id']
+        depart_id = User.query.filter_by(id=author_id).depart_id
         book = xlrd.open_workbook(form.attach.data)
         sh = book.sheet_by_index(0)
         total = []
@@ -146,8 +144,13 @@ def upload():
             totals.append(values)
         # filename = secure_filename(form.attach.data.filename)
         # form.attach.data.save('uploads/'+filename)
+        for t in totals:
+            post = Post(title = t[0], summary = t[1], note = t[2],
+                start_date = t[3], end_date = t[4], remind_date = t[5],
+                author_id = author_id, depart_id = depart_id)
+            db.session.add(post)
         flash('上传成功')
-        return redirect(url_for('.upload'))
+        return redirect(url_for('.all'))
     return render_template('upload.html', form=form)
 
 
