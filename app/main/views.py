@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, abort, flash, request,\
-    current_app, make_response, session
+    current_app, make_response, session, send_from_directory, send_file
 from flask_login import login_required, current_user
 from . import main
 from .forms import PostForm, SearchForm, AttachForm
@@ -8,6 +8,8 @@ from ..models import Permission, Role, User, Post, Depart
 from ..decorators import admin_required, permission_required
 from werkzeug import secure_filename
 import xlrd
+from datetime import datetime
+import os
 
 @main.route('/', methods=['GET', 'POST'])
 @login_required
@@ -132,33 +134,49 @@ def edit(id):
     return render_template('edit_post.html', form=form)
 
 
-@main.route('/upload', methods=['GET', 'POSt'])
+@main.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload():
     form = AttachForm()
     if form.validate_on_submit():
+        filename = current_user.get_id()+ \
+            datetime.now().strftime("-%Y%m%d-%H%M%S")+'.xls'#form.attach.data.filename
+        form.attach.data.save('uploads/'+filename)
         author_id = session['user_id']
-        depart_id = User.query.filter_by(id=author_id).depart_id
-        book = xlrd.open_workbook(form.attach.data)
+        depart_id = User.query.filter_by(id=author_id).first().depart_id
+        book = xlrd.open_workbook('uploads/'+filename)
+        # book = xlrd.open_workbook(form.attach.data)
         sh = book.sheet_by_index(0)
-        total = []
+        totals = []
         for row in range(1, sh.nrows):
             values = []
             for col in range(sh.ncols):
                 values.append(sh.cell(row, col).value)
             totals.append(values)
-        # filename = secure_filename(form.attach.data.filename)
-        # form.attach.data.save('uploads/'+filename)
+
         for t in totals:
             post = Post(title = t[0], summary = t[1], note = t[2],
-                start_date = t[3], end_date = t[4], remind_date = t[5],
+                start_date = xlrd.xldate_as_datetime(t[3], 0),
+                end_date = xlrd.xldate_as_datetime(t[4], 0),
+                remind_date = xlrd.xldate_as_datetime(t[5], 0),
                 author_id = author_id, depart_id = depart_id)
             db.session.add(post)
-        flash('上传成功')
-        return redirect(url_for('.all'))
+        flash('导入成功')
+        return redirect(url_for('.upload'))
     return render_template('upload.html', form=form)
 
 
+@main.route("/download", methods=['GET'])
+@login_required
+def download():
+    # dirpath = os.path.join(app.root_path, 'upload')
+    # directory = os.getcwd()  # 假设在当前目录
+    # response = make_response(send_from_directory(directory, filename, as_attachment=True))
+    # response.headers["Content-Disposition"] = "attachment; filename={}".format(file_name.encode().decode('latin-1'))
+    # return response
+    response = make_response(send_file("合同信息导入模板.xls"))
+    response.headers["Content-Disposition"] = "attachment; filename=template.xls;"
+    return response
 
 # @main.route('/user/<username>')
 # @login_required
