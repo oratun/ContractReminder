@@ -13,7 +13,6 @@ build
 
 # My configurations:
 web.config
-mail_sync.py
 data-dev.sqlite
 data-product.sqlite
 deploy_key_rsa
@@ -22,7 +21,7 @@ deploy_key_rsa
 /uploads
 testmssql.py
 params.txt
-
+key_info.py
 
 #MacOS
 .Ds_Store
