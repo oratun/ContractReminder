@@ -24,7 +24,7 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('输入密码', validators=[
         Required(), EqualTo('password2', message='Passwords must match.')])
     password2 = PasswordField('重复密码', validators=[Required()])
-    depart_id = SelectField('所在部门', coerce=int, default=1, 
+    depart_id = SelectField('所在部门', coerce=int, default=1,
                             validators=[Required()])
     email2 = StringField('抄送邮箱', validators=[Required(), Length(1, 64),
         Email()])
@@ -33,6 +33,8 @@ class RegistrationForm(FlaskForm):
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('邮箱已被注册')
+        if ' ' in field.data:
+            raise ValidationError('邮箱地址不能含空格')
 
     def validate_email2(self, field):
         if field.data == self.email:
