@@ -22,6 +22,8 @@ deploy_key_rsa
 testmssql.py
 params.txt
 key_info.py
-
+config.py
 #MacOS
 .Ds_Store
+/log
+
