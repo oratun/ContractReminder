@@ -1,3 +1,4 @@
+import os
 from email import encoders
 from email.header import Header
 from email.mime.text import MIMEText
@@ -7,14 +8,12 @@ import sqlite3
 from datetime import datetime, timedelta
 #key_info.py的mail类中定义了邮箱信息
 from key_info import mail
+from log import logging
 # import pymssql
 
-#log功能暂未生效
-# import logging
-# logging.basicConfig(filename='history.log',level=logging.info)
-# conn.close()
+
 def get_infos(sql, val):
-    conn = sqlite3.connect('data-dev.sqlite')
+    conn = sqlite3.connect('data-product.sqlite')
     cursor = conn.cursor()
     # conn=pymssql.connect(host=hostname,user=username,
     #     password=pwd,database=databasename)
@@ -59,26 +58,33 @@ def send_mail(res):
         # logging.info(succ)
     server.quit()
 
-today = datetime.today()
-date0 = datetime.strftime(today, '%Y-%m-%d')
-date30 = datetime.strftime(today + timedelta(days=30), '%Y-%m-%d')
-date90 = datetime.strftime(today + timedelta(days=90), '%Y-%m-%d')
 
-#根据提醒日期获取合同信息：
-sql_remind = '''select users.id, users.email, posts.id, posts.title, posts.summary,
-         posts.note, posts.end_date, users.email2
-         from users, posts where posts.author_id = users.id and
-         posts.remind_date = ?'''
+def main():
+    today = datetime.today()
+    date0 = datetime.strftime(today, '%Y-%m-%d')
+    date60 = datetime.strftime(today + timedelta(days=60), '%Y-%m-%d')
+    date90 = datetime.strftime(today + timedelta(days=90), '%Y-%m-%d')
 
-#根据结束日期获取合同信息：
-sql_end = '''select users.id, users.email, posts.id, posts.title, posts.summary,
-         posts.note, posts.end_date, users.email2
-         from users, posts where posts.author_id = users.id and
-         posts.end_date = ?'''
+    #根据提醒日期获取合同信息：
+    sql_remind = '''select users.id, users.email, posts.id, posts.title, posts.summary,
+             posts.note, posts.end_date, users.email2
+             from users, posts where posts.author_id = users.id and
+             posts.remind_date = ?'''
 
-res = get_infos(sql_remind, date0)
-res.extend(get_infos(sql_end, date30))
-res.extend(get_infos(sql_end, date90))
+    #根据结束日期获取合同信息：
+    sql_end = '''select users.id, users.email, posts.id, posts.title, posts.summary,
+             posts.note, posts.end_date, users.email2
+             from users, posts where posts.author_id = users.id and
+             posts.end_date = ?'''
 
-if res is not None:
-    send_mail(res)
+    res = get_infos(sql_remind, date0)
+    res.extend(get_infos(sql_end, date60))
+    res.extend(get_infos(sql_end, date90))
+    #print(res)
+    if res is not None:
+        logging('正在发送邮件', res)
+        send_mail(res)
+        logging('邮件发送成功')
+
+if __name__ == '__main__':
+    main()
