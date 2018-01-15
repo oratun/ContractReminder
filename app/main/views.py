@@ -47,7 +47,7 @@ def index():
     # show_followed = False
     # query = Post.query.filter_by(author_id=user_id).order_by(Post.timestamp.desc())
         pagination = query.paginate(
-            page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+            page, per_page=current_app.config['CR_POSTS_PER_PAGE'],
             error_out=False)
         posts = pagination.items
         return render_template('index.html', posts=posts, form=form,
@@ -67,7 +67,7 @@ def all():
     if current_user.can(Permission.SEE_ALL):
         query = Post.query.order_by(Post.timestamp.desc())
     pagination = query.paginate(
-        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+        page, per_page=current_app.config['CR_POSTS_PER_PAGE'],
         error_out=False)
     posts = pagination.items
     return render_template('all.html', posts=posts, pagination=pagination)
@@ -179,7 +179,7 @@ def download():
 #     user = User.query.filter_by(username=username).first_or_404()
 #     page = request.args.get('page', 1, type=int)
 #     pagination = user.posts.order_by(Post.timestamp.desc()).paginate(
-#         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+#         page, per_page=current_app.config['CR_POSTS_PER_PAGE'],
 #         error_out=False)
 #     posts = pagination.items
 #     return render_template('user.html', user=user, posts=posts,
@@ -269,7 +269,7 @@ def download():
 #         return redirect(url_for('.index'))
 #     page = request.args.get('page', 1, type=int)
 #     pagination = user.followers.paginate(
-#         page, per_page=current_app.config['FLASKY_FOLLOWERS_PER_PAGE'],
+#         page, per_page=current_app.config['CR_FOLLOWERS_PER_PAGE'],
 #         error_out=False)
 #     follows = [{'user': item.follower, 'timestamp': item.timestamp}
 #                for item in pagination.items]
@@ -286,7 +286,7 @@ def download():
 #         return redirect(url_for('.index'))
 #     page = request.args.get('page', 1, type=int)
 #     pagination = user.followed.paginate(
-#         page, per_page=current_app.config['FLASKY_FOLLOWERS_PER_PAGE'],
+#         page, per_page=current_app.config['CR_FOLLOWERS_PER_PAGE'],
 #         error_out=False)
 #     follows = [{'user': item.followed, 'timestamp': item.timestamp}
 #                for item in pagination.items]
@@ -317,7 +317,7 @@ def download():
 # def moderate():
 #     page = request.args.get('page', 1, type=int)
 #     pagination = Comment.query.order_by(Comment.timestamp.desc()).paginate(
-#         page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
+#         page, per_page=current_app.config['CR_COMMENTS_PER_PAGE'],
 #         error_out=False)
 #     comments = pagination.items
 #     return render_template('moderate.html', comments=comments,

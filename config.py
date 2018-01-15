@@ -16,12 +16,12 @@ class Config:
     # MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_USERNAME = key_info.mail.username
     MAIL_PASSWORD = key_info.mail.password
-    FLASKY_MAIL_SUBJECT_PREFIX = '合同提醒系统'
-    FLASKY_MAIL_SENDER = key_info.mail.from_addr
-    FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
-    FLASKY_POSTS_PER_PAGE = 20
-    FLASKY_FOLLOWERS_PER_PAGE = 50
-    FLASKY_COMMENTS_PER_PAGE = 30
+    CR_MAIL_SUBJECT_PREFIX = '合同提醒系统'
+    CR_MAIL_SENDER = key_info.mail.from_addr
+    CR_ADMIN = os.environ.get('CR_ADMIN')
+    CR_POSTS_PER_PAGE = 20
+    CR_FOLLOWERS_PER_PAGE = 50
+    CR_COMMENTS_PER_PAGE = 30
     BOOTSTRAP_SERVE_LOCAL = True #使用本地的服务器，不使用CDN加速 
 
     @staticmethod
