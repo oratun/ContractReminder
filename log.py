@@ -8,7 +8,7 @@ def logging(*args):
     '''
     folder = 'log'
     if not os.path.exists(folder):
-        mkdir(folder)
+        os.mkdir(folder)
     today = datetime.today()
     date = datetime.strftime(datetime.today(), '%Y-%m-%d')
     value = datetime.strftime(datetime.today(), '%H:%M:%S')
