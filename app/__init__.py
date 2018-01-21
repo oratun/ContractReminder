@@ -22,8 +22,8 @@ def create_app(config_name):
     app.config['BOOTSTRAP_SERVE_LOCAL'] = True
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
-    app.config['CELERY_BROKER_URL'] = 'sqla+sqlite:///celerydb.sqlite'
-    app.config['CELERY_RESULT_BACKEND'] = 'sqla+sqlite:///celerydb.sqlite'
+    # app.config['CELERY_BROKER_URL'] = 'sqla+sqlite:///celerydb.sqlite'
+    # app.config['CELERY_RESULT_BACKEND'] = 'sqla+sqlite:///celerydb.sqlite'
 
     bootstrap.init_app(app)
     mail.init_app(app)

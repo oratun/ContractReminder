@@ -26,4 +26,4 @@ config.py
 #MacOS
 .Ds_Store
 /log
-
+data-product.sqlite-journal
