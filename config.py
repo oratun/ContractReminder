@@ -14,10 +14,10 @@ class Config:
     MAIL_USE_TLS = True
     # MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     # MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    MAIL_USERNAME = key_info.mail.username
-    MAIL_PASSWORD = key_info.mail.password
+    MAIL_USERNAME = key_info.Mail.username
+    MAIL_PASSWORD = key_info.Mail.password
     CR_MAIL_SUBJECT_PREFIX = '合同提醒系统'
-    CR_MAIL_SENDER = key_info.mail.from_addr
+    CR_MAIL_SENDER = key_info.Mail.from_addr
     CR_ADMIN = os.environ.get('CR_ADMIN')
     CR_POSTS_PER_PAGE = 20
     CR_FOLLOWERS_PER_PAGE = 50
