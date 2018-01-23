@@ -51,7 +51,8 @@ def send_mail(res):
         to_addr2 = r.get('email2', None)
         if to_addr is None:
             continue
-        if to_addr2 is not None:
+        # 排除抄送邮箱为空,或主副邮箱相同的情况
+        if to_addr2 is not None and to_addr != [to_addr2]:
             to_addr.append(to_addr2)
         end_date = r.get('end_date', None)
         if end_date is not None:

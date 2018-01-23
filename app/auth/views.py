@@ -52,18 +52,28 @@ def register():
     form = RegistrationForm()
     form.depart_id.choices = [(d.id, d.depart_name) for d in Depart.query.all()]
     if form.validate_on_submit():
-        user = User(email=form.email.data, 
+        # 此处判断是否办公邮箱注册,如果是则跳过邮件接收验证
+        confirmed = False
+        mail_domain = form.email.data.split('@')[1]                     
+        if mail_domain in ['wo.cn', 'chinaunicom.cn']:
+            confirmed = True
+        user = User(email=form.email.data,
                     username=form.username.data,
-                    password=form.password.data, 
+                    password=form.password.data,
                     depart_id=form.depart_id.data,
-                    email2=form.email2.data)
+                    email2=form.email2.data,
+                    confirmed=confirmed)
         db.session.add(user)
         db.session.commit()
-        token = user.generate_confirmation_token()
-        send_email(user.email, '验证你的账号',
-                   'auth/email/confirm', user=user, token=token)
-        flash('一封确认邮件已发至你的邮箱')
-        return redirect(url_for('auth.login'))
+        if confirmed:
+            flash('注册成功')
+            return redirect(url_for('auth.login'))
+        else:
+            token = user.generate_confirmation_token()
+            send_email(user.email, '验证你的账号',
+                       'auth/email/confirm', user=user, token=token)
+            flash('一封确认邮件已发至你的邮箱')
+            return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form)
 
 
