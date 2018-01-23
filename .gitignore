@@ -27,4 +27,3 @@ config.py
 .Ds_Store
 /log
 data-product.sqlite-journal
-mail_mysql.py

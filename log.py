@@ -15,7 +15,7 @@ def logging(*args):
     # 使用当天的日期作为日志文件名 2018-01-08
     filename = '{}.txt'.format(date)
     path = os.path.join(folder, filename)
-    with open(path, 'w', encoding='utf-8') as f:
+    with open(path, 'a', encoding='utf-8') as f:
         print(value, *args, file=f)
 
 
