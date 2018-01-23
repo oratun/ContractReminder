@@ -6,11 +6,14 @@ from email.utils import parseaddr, formataddr
 import smtplib
 import sqlite3
 from datetime import datetime, timedelta
-#key_info.py的mail类中定义了邮箱信息
 from key_info import mail
 from log import logging
 # import pymssql
 
+
+'''
+sqlite 版本的邮件发送脚本 已废弃
+'''
 
 def get_infos(sql, val):
     conn = sqlite3.connect('data-product.sqlite')

@@ -114,6 +114,7 @@ def copy_email():
             db.session.add(current_user)
             flash('抄送邮箱修改成功')
             return redirect(url_for('main.index'))
+    flash('信息有误')
     return render_template("auth/copy_email.html", form=form)
 
 
