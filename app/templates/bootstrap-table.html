@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>bootstrap-table</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.css">
+  </head>
+<body>
+<div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>标题</th>
+        <th>开始日期</th>
+        <th>结束日期</th>
+        <th>提醒日期</th>
+        <th>摘要</th>
+        <th>备注</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>{{ post.title }}</td>
+        <td>{{ post.start_date }}</td>
+        <td>{{ post.end_date.strftime('%Y-%m-%d') }}</td>
+        <td>{{ post.remind_date.strftime('%Y-%m-%d')</td>
+        <td>{{ post.summary }}</td>
+        <td>{{ post.note }}</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+      </tr>
+      <tr>
+        <th scope="row">3</th>
+        <td colspan="2">Larry the Bird</td>
+        <td>@twitter</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</body>
+</html>
