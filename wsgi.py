@@ -1,13 +1,12 @@
 
-import sys
-from os.path import abspath
-from os.path import dirname
-from manage import app
+import os
+from app import create_app
 
 
-sys.path.insert(0, abspath(dirname(__file__)))
-application = app
+application = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
+if __name__ == '__main__':
+    application.run()
 """
 建立一个软连接
 ln -s /var/www/ContractReminder/cr.conf /etc/supervisor/conf.d/cr.conf
