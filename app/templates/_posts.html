@@ -1,37 +1,4 @@
-<!-- <ul class="posts">
-    {% for post in posts %}
-    <li class="post">
 
-        <div class="post-content">
-            <div class="post-date">添加于{{ moment(post.timestamp).fromNow() }}</div>
-
-            <div class="post-body">
-                标题：{{ post.title }} |
-                开始日期：{{ post.start_date }} |
-                结束日期：{{ post.end_date.strftime('%Y-%m-%d') }} |
-                提醒日期：{{ post.remind_date.strftime('%Y-%m-%d') }} |
-                摘要：{{ post.summary }} |
-                备注：{{ post.note }}
-            </div>
-            <div class="post-footer">
-                {% if current_user == post.author %}
-                <a href="{{ url_for('.edit', id=post.id) }}">
-                    <span class="label label-default">编辑</span>
-                </a>
-                {% elif current_user.is_administrator() %}
-                <a href="{{ url_for('.edit', id=post.id) }}">
-                    <span class="label label-danger">编辑 [管理员]</span>
-                </a>
-                {% endif %}
-                <a href="{{ url_for('.post', id=post.id) }}">
-                    <span class="label label-primary">查看</span>
-                </a>
-
-            </div>
-        </div>
-    </li>
-    {% endfor %} 
-</ul>-->
   <table class="table table-hover">
     <thead>
       <tr>
